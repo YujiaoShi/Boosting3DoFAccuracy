@@ -76,7 +76,7 @@ Ford:
   Calibration-V2:
 
 
-For the Cross-view Oxford RobotCar dataset, please refer to this github page: https://github.com/tudelft-iv/CrossViewMetricLocalization.git.
+- For the Cross-view Oxford RobotCar dataset, please refer to this github page: https://github.com/tudelft-iv/CrossViewMetricLocalization.git.
 
 ### Codes
 
