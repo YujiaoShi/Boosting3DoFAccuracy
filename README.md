@@ -1,12 +1,15 @@
-# Beyond Cross-view Image Retrieval: Highly Accurate Vehicle Localization Using Satellite Image, CVPR 2022
+# Boosting 3-DoF Ground-to-Satellite Camera Localization Accuracy via Geometry-Guided Cross-View Transformer, ICCV 2023
 
 ![Framework](./Framework.png)
 
 # Abstract
-This paper addresses the problem of vehicle-mounted {\em camera localization} by matching a ground-level image with an overhead-view satellite map.  Existing methods often treat this problem as cross-view {\em image retrieval}, and use learned deep features to match the ground-level query image to a partition (\eg, a small patch) of the satellite map. By these methods, the localization accuracy is limited by the partitioning density of the satellite map (often in the order of tens meters).  Departing from the conventional wisdom of image retrieval, this paper presents a novel solution that can achieve highly-accurate localization. The key idea is to formulate the task as pose estimation and solve it by neural-net based optimization. Specifically, we design a two-branch {CNN} to extract robust features from the ground and satellite images, respectively. To bridge the vast cross-view domain gap, we resort to a Geometry Projection module that projects features from the satellite map to the ground-view, based on a relative camera pose. Aiming to minimize the differences between the projected features and the observed features, we employ a differentiable Levenberg-Marquardt ({LM}) module to search for the optimal camera pose iteratively. The entire pipeline is differentiable and runs end-to-end. 
-Extensive experiments on standard autonomous vehicle localization datasets have confirmed the superiority of the proposed method. Notably, \eg, starting from a coarse estimate of camera location within a wide region of $40\text{m}\times40\text{m}$, with an 80\% likelihood our method quickly reduces the lateral location error to be within $5\text{m}$ on a new KITTI cross-view dataset.
+Image retrieval-based cross-view localization methods often lead to very coarse camera pose estimation, due to the limited sampling density of the database satellite images. In this paper, we propose a method to increase the accuracy of a ground camera's location and orientation by estimating the relative rotation and translation between the ground-level image and its matched/retrieved satellite image.
+Our approach designs a geometry-guided cross-view transformer that combines the benefits of conventional geometry and learnable cross-view transformers to map the ground-view observations to an overhead view. 
+Given the synthesized overhead view and observed satellite feature maps, we construct a neural pose optimizer with strong global information embedding ability to estimate the relative rotation between them. After aligning their rotations, we develop an uncertainty-guided spatial correlation to generate a probability map of the vehicle locations, from which the relative translation can be determined.
+Experimental results demonstrate that our method significantly outperforms the state-of-the-art. Notably, the likelihood of restricting the vehicle lateral pose to be within 1m of its Ground Truth (GT) value on the cross-view KITTI dataset has been improved from $35.54\%$ to $76.44\%$, and the likelihood of restricting the vehicle orientation to be within $1^{\circ}$ of its GT value has been improved from $19.64\%$ to $99.10\%$.
+
 ### Experiment Dataset
-We use two existing dataset to do the experiments: KITTI and Ford-AV. For our collected satellite images for both datasets, please first fill this [Google Form](https://forms.gle/Bm8jNLiUxFeQejix7), we will then send you the link for download. 
+We use three existing dataset to do the experiments: KITTI, Ford-AV and Oxford RobotCar. For our collected satellite images for KITTI and Ford-AV, please first fill this [Google Form](https://forms.gle/Bm8jNLiUxFeQejix7), we will then send you the link for download. 
 
 - KITTI: Please first download the raw data (ground images) from http://www.cvlibs.net/datasets/kitti/raw_data.php, and store them according to different date (not category). 
 Your dataset folder structure should be like: 
@@ -73,68 +76,63 @@ Ford:
   Calibration-V2:
 
 
+For the Cross-view Oxford RobotCar dataset, please refer to this github page: https://github.com/tudelft-iv/CrossViewMetricLocalization.git.
 
 ### Codes
-Codes for training and testing on unknown orientation (train_grd_noise=360) and different FoV.
 
-1. Training:
+1. Training on 2DoF(only location) pose estimation:
 
-    python train_kitti.py --batch_size 1 --train_damping 0 --using_weight 0
-    
-    python train_kitti.py --batch_size 1 --train_damping 0 --using_weight 0
+    python train_kitti_2DoF.py --batch_size 1 
 
 
-    python train_ford.py --batch_size 1 --train_log_start 0 --train_log_end 1 --train_damping 0 --using_weight 0
+    python train_ford_2DoF.py --batch_size 1 --train_log_start 0 --train_log_end 1 
     
-    python train_ford.py --batch_size 1 --train_log_start 1 --train_log_end 2 --train_damping 0 --using_weight 0
+    python train_ford_2DoF.py --batch_size 1 --train_log_start 1 --train_log_end 2 
     
-    python train_ford.py --batch_size 1 --train_log_start 2 --train_log_end 3 --train_damping 0 --using_weight 0
+    python train_ford_2DoF.py --batch_size 1 --train_log_start 2 --train_log_end 3
     
-    python train_ford.py --batch_size 1 --train_log_start 3 --train_log_end 4 --train_damping 0 --using_weight 0
+    python train_ford_2DoF.py --batch_size 1 --train_log_start 3 --train_log_end 4 
     
-    python train_ford.py --batch_size 1 --train_log_start 4 --train_log_end 5 --train_damping 0 --using_weight 0
+    python train_ford_2DoF.py --batch_size 1 --train_log_start 4 --train_log_end 5 
     
-    python train_ford.py --batch_size 1 --train_log_start 5 --train_log_end 6 --train_damping 0 --using_weight 0
+    python train_ford_2DoF.py --batch_size 1 --train_log_start 5 --train_log_end 6
+    
+    
+    python train_oxford_2DoF.py --batch_size 1 
+
+
+2. Training on 3DoF (joint location and translation) pose estimation:
+
+    python train_kitti_3DoF.py --batch_size 1 
+
+
+    python train_ford_3DoF.py --batch_size 1 --train_log_start 0 --train_log_end 1 
+    
+    python train_ford_3DoF.py --batch_size 1 --train_log_start 1 --train_log_end 2 
+    
+    python train_ford_3DoF.py --batch_size 1 --train_log_start 2 --train_log_end 3
+    
+    python train_ford_3DoF.py --batch_size 1 --train_log_start 3 --train_log_end 4 
+    
+    python train_ford_3DoF.py --batch_size 1 --train_log_start 4 --train_log_end 5 
+    
+    python train_ford_3DoF.py --batch_size 1 --train_log_start 5 --train_log_end 6
 
 2. Evaluation:
 
-    python train_kitti.py --batch_size 1 --train_damping 0 --using_weight 0 --test 1
-    
-    python train_kitti.py --batch_size 1 --train_damping 0 --using_weight 0 --test 1
-    
-    
-    python train_ford.py --batch_size 1 --train_log_start 0 --train_log_end 1 --train_damping 0 --using_weight 0 --test 1
-    
-    python train_ford.py --batch_size 1 --train_log_start 1 --train_log_end 2 --train_damping 0 --using_weight 0 --test 1
-    
-    python train_ford.py --batch_size 1 --train_log_start 2 --train_log_end 3 --train_damping 0 --using_weight 0 --test 1
-    
-    python train_ford.py --batch_size 1 --train_log_start 3 --train_log_end 4 --train_damping 0 --using_weight 0 --test 1
-    
-    python train_ford.py --batch_size 1 --train_log_start 4 --train_log_end 5 --train_damping 0 --using_weight 0 --test 1
-    
-    python train_ford.py --batch_size 1 --train_log_start 5 --train_log_end 6 --train_damping 0 --using_weight 0 --test 1
+    Plz simply add "--test 1" after the training commands. E.g. 
+
+    python train_kitti_3DoF.py --batch_size 1 --test 1
 
 
 You are free to change batch size according to your own GPU memory. 
 
 ### Models:
-Our trained models for Ford and KITTI are available [here](https://anu365-my.sharepoint.com/:f:/g/personal/u6293587_anu_edu_au/Ev7HAgSDze5LhvRWfcM4AgEBJiSr6W0GuTEEfdhWHG_gSQ?e=vNtwCJ). 
+Our trained models are available [here](https://anu365-my.sharepoint.com/:f:/g/personal/u6293587_anu_edu_au/Eofuoj1mCP1OqVEU9WC46BMBae0UK_pyFCh7qxNhPXEMtw?e=ranBPV). 
 
 
 
 ### Publications
-This work is published in CVPR 2022.  
-[Beyond Cross-view Image Retrieval: Highly Accurate Vehicle Localization Using Satellite Image]
+This work is submitted to ICCV 2023.  
 
-If you are interested in our work and use our code, we are pleased that you can cite the following publication:  
-
-*Yujiao Shi, and Hongdong Li. Beyond Cross-view Image Retrieval: Highly Accurate Vehicle Localization Using Satellite Image.*
-
-@inproceedings{shi2020beyond,
-  title={Beyond Cross-view Image Retrieval: Highly Accurate Vehicle Localization Using Satellite Image},
-  author={Shi, Yujiao and Li, Hongdong},
-  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
-  year={2022}
-}
 
