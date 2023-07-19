@@ -101,6 +101,7 @@ Ford:
     python train_oxford_2DoF.py --batch_size 1
 
     python train_VIGOR_2DoF.py --area cross
+   
     python train_VIGOR_2DoF.py --area same
 
 
