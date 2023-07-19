@@ -98,10 +98,13 @@ Ford:
     python train_ford_2DoF.py --batch_size 1 --train_log_start 5 --train_log_end 6
     
     
-    python train_oxford_2DoF.py --batch_size 1 
+    python train_oxford_2DoF.py --batch_size 1
+
+    python train_VIGOR_2DoF.py --area cross
+    python train_VIGOR_2DoF.py --area same
 
 
-2. Training on 3DoF (joint location and translation) pose estimation:
+3. Training on 3DoF (joint location and translation) pose estimation:
 
     python train_kitti_3DoF.py --batch_size 1 
 
