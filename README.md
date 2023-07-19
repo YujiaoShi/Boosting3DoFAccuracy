@@ -77,6 +77,9 @@ Ford:
 
 
 - For the Cross-view Oxford RobotCar dataset, please refer to this github page: https://github.com/tudelft-iv/CrossViewMetricLocalization.git.
+- For the VIGOR dataset, please refer to the following two github pages:
+  https://github.com/Jeff-Zilence/VIGOR.git
+  https://github.com/tudelft-iv/SliceMatch.git
 
 ### Codes
 
