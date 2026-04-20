@@ -1,6 +1,10 @@
-# Boosting 3-DoF Ground-to-Satellite Camera Localization Accuracy via Geometry-Guided Cross-View Transformer, ICCV 2023
+# Boosting 3-DoF Ground-to-Satellite Camera Localization Accuracy via Geometry-Guided Cross-View Transformer
 
-![Framework](./Framework.png)
+Official implementation of the **ICCV 2023** paper: **[Boosting 3-DoF Ground-to-Satellite Camera Localization Accuracy via Geometry-Guided Cross-View Transformer](https://openaccess.thecvf.com/content/ICCV2023/papers/Shi_Boosting_3-DoF_Ground-to-Satellite_Camera_Localization_Accuracy_via_Geometry-Guided_Cross-View_Transformer_ICCV_2023_paper.pdf)**
+
+[Yujiao Shi](https://yujiaoshi.github.io/), Fei Wu, [Akhil Perincherry](http://akhilperincherry.com/), Ankit Vora, and [Hongdong Li](https://users.cecs.anu.edu.au/~hongdong/)
+
+![Framework](./figures_framework.png)
 
 # Abstract
 Image retrieval-based cross-view localization methods often lead to very coarse camera pose estimation, due to the limited sampling density of the database satellite images. In this paper, we propose a method to increase the accuracy of a ground camera's location and orientation by estimating the relative rotation and translation between the ground-level image and its matched/retrieved satellite image.
@@ -138,8 +142,15 @@ You are free to change batch size according to your own GPU memory.
 Our trained models are available [here](https://anu365-my.sharepoint.com/:f:/g/personal/u6293587_anu_edu_au/Eofuoj1mCP1OqVEU9WC46BMBae0UK_pyFCh7qxNhPXEMtw?e=bPWf6K). 
 
 
+### Citing
 
-### Publications
-This work is submitted to ICCV 2023.  
-
+```tex
+@inproceedings{shi2023boosting,
+  title={Boosting 3-dof ground-to-satellite camera localization accuracy via geometry-guided cross-view transformer},
+  author={Shi, Yujiao and Wu, Fei and Perincherry, Akhil and Vora, Ankit and Li, Hongdong},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={21516--21526},
+  year={2023}
+}
+```
 
