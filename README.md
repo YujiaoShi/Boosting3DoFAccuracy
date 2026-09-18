@@ -139,7 +139,7 @@ Ford:
 You are free to change batch size according to your own GPU memory. 
 
 ### Models:
-Our trained models are available [here](https://1drv.ms/f/c/86d953bfc66eb903/IgABHwxTUr4BQpWQkH05TwOeAQJvw-hI22Kkbpo4ewIa9mI?e=E5TfDO). 
+Our trained models are available [here](https://1drv.ms/f/c/86d953bfc66eb903/IgABHwxTUr4BQpWQkH05TwOeAQJvw-hI22Kkbpo4ewIa9mI?e=89g33M). 
 
 
 ### Citing
